@@ -1,5 +1,7 @@
 package com.ecommerceweb.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,12 @@ public class CategoryController {
 		return new ResponseEntity<CategoryDto> (categoryService.addCategory(categoryDto),HttpStatus.OK);
 	}
 
+	@GetMapping("getAll-category")
+	public ResponseEntity<List<CategoryDto>> getAllCategory()
+	{
+		return new ResponseEntity<List<CategoryDto>> (categoryService.getAllCategory(),HttpStatus.OK);
+	}
+	
 	@GetMapping("get-category/{id}")
 	public ResponseEntity<CategoryDto> getCategory(@PathVariable Long id)
 	{

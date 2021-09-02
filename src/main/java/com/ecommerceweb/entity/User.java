@@ -1,10 +1,13 @@
 package com.ecommerceweb.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User {
@@ -15,7 +18,8 @@ public class User {
 	private String email;
 	private int role;
 
-	@OneToOne
+	@OneToOne(cascade =  CascadeType.ALL)
+	@JsonIgnore
 	private UserProfile userprofile;
 
 	public User() {
