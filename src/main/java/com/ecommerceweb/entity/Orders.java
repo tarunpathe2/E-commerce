@@ -18,6 +18,7 @@ public class Orders {
 	private String email;
 	private String address;
 	private int amount;
+	private int quantity;
 	private String status;
 	
 	@ManyToOne
@@ -34,6 +35,12 @@ public class Orders {
 	}
 	public Long getId() {
 		return id;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -73,6 +80,11 @@ public class Orders {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	@Override
+	public String toString() {
+		return "Orders [id=" + id + ", date=" + date + ", email=" + email + ", address=" + address + ", amount="
+				+ amount + ", status=" + status + ", user=" + user + ", product=" + product + "]";
 	}
 	
 }

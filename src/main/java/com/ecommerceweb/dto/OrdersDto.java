@@ -2,6 +2,8 @@ package com.ecommerceweb.dto;
 
 import java.sql.Date;
 
+import javax.validation.constraints.NotNull;
+
 public class OrdersDto {
 
 	private Long id;
@@ -10,11 +12,22 @@ public class OrdersDto {
 	private String address;
 	private int amount;
 	private String status;
+	@NotNull
 	private Long userId;
+	private int quantity;
+	@NotNull
 	private Long productId;
 
 	public Long getId() {
 		return id;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public void setId(Long id) {

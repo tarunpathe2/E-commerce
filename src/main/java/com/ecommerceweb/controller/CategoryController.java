@@ -19,37 +19,37 @@ import com.ecommerceweb.service.CategoryService;
 
 
 @RestController
-@RequestMapping("/e-commerce/user/")
+@RequestMapping("/e-commerce/category/")
 public class CategoryController {
 	
 	@Autowired
 	private CategoryService categoryService;
 	
-	@PostMapping("add-category")
+	@PostMapping
 	public ResponseEntity<CategoryDto> saveCategory(@RequestBody CategoryDto categoryDto)
 	{
 		return new ResponseEntity<CategoryDto> (categoryService.addCategory(categoryDto),HttpStatus.OK);
 	}
 
-	@GetMapping("getAll-category")
+	@GetMapping
 	public ResponseEntity<List<CategoryDto>> getAllCategory()
 	{
 		return new ResponseEntity<List<CategoryDto>> (categoryService.getAllCategory(),HttpStatus.OK);
 	}
 	
-	@GetMapping("get-category/{id}")
+	@GetMapping("{id}")
 	public ResponseEntity<CategoryDto> getCategory(@PathVariable Long id)
 	{
 		return new ResponseEntity<CategoryDto> (categoryService.getCategory(id),HttpStatus.OK);
 	}
 	
-	@PutMapping("update-category")
+	@PutMapping
 	public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto)
 	{
 		return new ResponseEntity<CategoryDto> (categoryService.updateCategory(categoryDto),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("delete-category/{id}")
+	@DeleteMapping("{id}")
 	public ResponseEntity<CategoryDto> deleteCategory(@PathVariable Long id)
 	{
 		categoryService.deleteCategory(id);

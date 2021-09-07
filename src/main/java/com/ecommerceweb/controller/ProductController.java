@@ -18,37 +18,37 @@ import com.ecommerceweb.dto.ProductDto;
 import com.ecommerceweb.service.ProductService;
 
 @RestController
-@RequestMapping("/e-commerce/product/")
+@RequestMapping("/e-commerce/products/")
 public class ProductController {
 
 	@Autowired
 	private ProductService productService;
 	
-	@PostMapping("add")
+	@PostMapping
 	public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto)
 	{
 		return new ResponseEntity<ProductDto> (productService.addProduct(productDto),HttpStatus.OK);
 	}
 	
-	@GetMapping("get")
+	@GetMapping("{id}")
 	public ResponseEntity<ProductDto> getProduct(@PathVariable Long id)
 	{
 		return new ResponseEntity<ProductDto> (productService.getProduct(id),HttpStatus.OK);
 	}
 	
-	@GetMapping("getAll")
+	@GetMapping
 	public ResponseEntity<List<ProductDto>> getAllProducts()
 	{
 		return new ResponseEntity<List<ProductDto>> (productService.getAllProduct(),HttpStatus.OK);
 	}
 	
-	@PutMapping("update")
+	@PutMapping
 	public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto)
 	{
 		return new ResponseEntity<ProductDto> (productService.updateProduct(productDto),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("delete/{id}")
+	@DeleteMapping("{id}")
 	public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long id)
 	{
 		productService.deleteProduct(id);

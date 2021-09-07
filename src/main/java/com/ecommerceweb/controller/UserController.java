@@ -18,28 +18,28 @@ import com.ecommerceweb.service.UserService;
 
 
 @RestController
-@RequestMapping("/e-commerce/")
+@RequestMapping("/e-commerce/users")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("getUser/{id}")
+	@GetMapping("{id}")
 	public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
 		return new ResponseEntity<UserDto>(userService.getUser(id), HttpStatus.OK);
 	}
 
-	@PostMapping("addUser")
+	@PostMapping
 	public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
 		return new ResponseEntity<UserDto>(userService.addUser(userDto), HttpStatus.OK);
 	}
 
-	@GetMapping("getAllUsers")
+	@GetMapping
 	public ResponseEntity<List<UserDto>> getAllUser() {
 		return new ResponseEntity<List<UserDto>>(userService.getAllUser(), HttpStatus.OK);
 	}
 
-	@DeleteMapping("deleteUser/{id}")
+	@DeleteMapping("{id}")
 	public ResponseEntity<UserDto> deleteUser(Long id) {
 		userService.deleteUser(id);
 		return new ResponseEntity<UserDto>(HttpStatus.OK);

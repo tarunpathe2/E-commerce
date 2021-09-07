@@ -18,37 +18,37 @@ import com.ecommerceweb.dto.OrdersDto;
 import com.ecommerceweb.service.OrderService;
 
 @RestController
-@RequestMapping("/e-commerce/user/order/")
+@RequestMapping("/e-commerce/orders/")
 public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
 	
-	@PostMapping("add")
-	public ResponseEntity<OrdersDto> createOrder(@RequestBody OrdersDto orderDto)
+	@PostMapping("{productId}")
+	public ResponseEntity<OrdersDto> createOrder(@RequestBody OrdersDto orderDto, @PathVariable Long productId)
 	{
-		return new ResponseEntity<OrdersDto> (orderService.addOrders(orderDto),HttpStatus.OK);
+		return new ResponseEntity<OrdersDto> (orderService.addOrders(orderDto, productId),HttpStatus.OK);
 	}
 	
-	@PutMapping("update")
+	@PutMapping
 	public ResponseEntity<OrdersDto> updateOrder(@RequestBody OrdersDto orderDto)
 	{
 		return new ResponseEntity<OrdersDto> (orderService.updateOrders(orderDto),HttpStatus.OK);
 	}
 	
-	@GetMapping("get/{id}")
+	@GetMapping("{id}")
 	public ResponseEntity<OrdersDto> getOrder(@PathVariable Long id)
 	{
 		return new ResponseEntity<OrdersDto> (orderService.getOrder(id),HttpStatus.OK);	
 	}
 	
-	@GetMapping("getAll")
+	@GetMapping
 	public ResponseEntity<List<OrdersDto>> getAllOrder()
 	{
 		return new ResponseEntity<List<OrdersDto>> (orderService.getAllOrders(),HttpStatus.OK);	
 	}
 	
-	@DeleteMapping("delete/{id}")
+	@DeleteMapping("{id}")
 	public ResponseEntity<OrdersDto> cancelOrder(@PathVariable Long id)
 	{
 		orderService.deleteOrders(id);

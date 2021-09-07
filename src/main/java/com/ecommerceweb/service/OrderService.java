@@ -10,7 +10,7 @@ public interface OrderService {
 	
 	public OrdersDto getOrder(Long id);
 	
-	public OrdersDto addOrders(OrdersDto ordersDto);
+	public OrdersDto addOrders(OrdersDto ordersDto, Long productId);
 	
 	public OrdersDto updateOrders(OrdersDto ordersDto);
 	
