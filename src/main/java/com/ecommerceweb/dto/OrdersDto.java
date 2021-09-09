@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 public class OrdersDto {
 
 	private Long id;
-	private Date date;
+	private Date orderDate;
 	private String email;
 	private String address;
 	private int amount;
@@ -34,12 +34,12 @@ public class OrdersDto {
 		this.id = id;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getOrderDate() {
+		return orderDate;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
 	}
 
 	public String getEmail() {

@@ -1,5 +1,6 @@
 package com.ecommerceweb.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerceweb.dto.OrdersDto;
+import com.ecommerceweb.repository.OrdersRepository;
 import com.ecommerceweb.service.OrderService;
 
 @RestController
@@ -24,10 +26,10 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	
-	@PostMapping("{productId}")
-	public ResponseEntity<OrdersDto> createOrder(@RequestBody OrdersDto orderDto, @PathVariable Long productId)
+	@PostMapping("{userId}/{productId}")
+	public ResponseEntity<OrdersDto> createOrder(@RequestBody OrdersDto orderDto, @PathVariable Long productId, @PathVariable Long userId)
 	{
-		return new ResponseEntity<OrdersDto> (orderService.addOrders(orderDto, productId),HttpStatus.OK);
+		return new ResponseEntity<OrdersDto> (orderService.addOrders(orderDto, productId, userId),HttpStatus.OK);
 	}
 	
 	@PutMapping
@@ -46,6 +48,12 @@ public class OrderController {
 	public ResponseEntity<List<OrdersDto>> getAllOrder()
 	{
 		return new ResponseEntity<List<OrdersDto>> (orderService.getAllOrders(),HttpStatus.OK);	
+	}
+	
+	@GetMapping("date/{start}/{end}")
+	public ResponseEntity<List<OrdersDto>> getAllOrderByDates(@PathVariable Date start,@PathVariable Date end)
+	{
+		return new ResponseEntity<List<OrdersDto>> (orderService.getOrdersBetween(start, end),HttpStatus.OK);	
 	}
 	
 	@DeleteMapping("{id}")

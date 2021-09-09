@@ -14,7 +14,7 @@ public class Orders {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Date date;
+	private Date orderDate;
 	private String email;
 	private String address;
 	private int amount;
@@ -45,11 +45,11 @@ public class Orders {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Date getDate() {
-		return date;
+	public Date getOrderDate() {
+		return orderDate;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
 	}
 	public String getEmail() {
 		return email;
@@ -81,10 +81,4 @@ public class Orders {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	@Override
-	public String toString() {
-		return "Orders [id=" + id + ", date=" + date + ", email=" + email + ", address=" + address + ", amount="
-				+ amount + ", status=" + status + ", user=" + user + ", product=" + product + "]";
-	}
-	
 }

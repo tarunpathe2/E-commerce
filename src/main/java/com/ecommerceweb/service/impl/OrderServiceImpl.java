@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecommerceweb.dto.OrdersDto;
-import com.ecommerceweb.dto.ProductDto;
 import com.ecommerceweb.entity.Orders;
+import com.ecommerceweb.entity.Products;
 import com.ecommerceweb.entity.User;
 import com.ecommerceweb.exception.BadInputException;
 import com.ecommerceweb.exception.UnprocessableEntity;
@@ -19,8 +19,6 @@ import com.ecommerceweb.repository.OrdersRepository;
 import com.ecommerceweb.repository.ProductRepository;
 import com.ecommerceweb.repository.UserRepository;
 import com.ecommerceweb.service.OrderService;
-import com.ecommerceweb.service.ProductService;
-import com.ecommerceweb.service.UserService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -34,9 +32,6 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	ProductRepository productRepository;
 	
-	@Autowired
-	ProductService productService;
-
 	@Autowired
 	private ModelMapper modelMapper;
 	
@@ -63,18 +58,29 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public OrdersDto addOrders(OrdersDto ordersDto,Long productId)
+	public OrdersDto addOrders(OrdersDto ordersDto,Long productId,Long UserId)
 	{
 		if(!isExist(ordersDto.getUserId()))
 		{
 			throw new BadInputException("User not exist");
 		}
-		ProductDto productDto = productService.getProduct(productId);
+		Products products = productRepository.getById(productId);
+		User user = userRepo.getById(UserId);
 		Orders orders = modelMapper.map(ordersDto, Orders.class);
-		orders.setDate(date);
-		orders.setAmount(productDto.getPrice()*ordersDto.getQuantity());
+		orders.setOrderDate(date);
+		orders.setUser(user);
+		orders.setAmount(products.getPrice()*ordersDto.getQuantity());
 		orderRepo.save(orders);
 		return modelMapper.map(orders, OrdersDto.class);
+	}
+	
+	@Override
+	public List<OrdersDto> getOrdersBetween(Date start, Date end )
+	{
+		List<Orders> orders = orderRepo.findByOrderDateBetween(start,end);
+		List<OrdersDto> ordersDto = orders.stream().
+				map(od -> modelMapper.map(od , OrdersDto.class)).collect(Collectors.toList());
+		return ordersDto;
 	}
 	
 	@Override
