@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerceweb.dto.OrdersDto;
-import com.ecommerceweb.repository.OrdersRepository;
 import com.ecommerceweb.service.OrderService;
 
 @RestController

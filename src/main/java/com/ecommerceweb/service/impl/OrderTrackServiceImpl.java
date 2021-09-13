@@ -1,4 +1,4 @@
-package com.ecommerceweb.service.impl;
+	package com.ecommerceweb.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +9,10 @@ import com.ecommerceweb.entity.OrderTrack;
 import com.ecommerceweb.entity.Orders;
 import com.ecommerceweb.repository.OrderTrackRepository;
 import com.ecommerceweb.repository.OrdersRepository;
+import com.ecommerceweb.service.OrderTrackService;
 
 @Service
-public class OrderTrackServiceImpl {
+public class OrderTrackServiceImpl implements OrderTrackService{
 
 	@Autowired
 	OrderTrackRepository orderTrackRepo;
@@ -27,15 +28,18 @@ public class OrderTrackServiceImpl {
 		return orderTrackRepo.existsById(id);
 	}
 	
+	@Override
 	public OrderTrackDto addOrderTrack(Long orderId, OrderTrackDto orderTrackDto)
 	{
 		Orders orders = orderRepo.getById(orderId);
 		orderTrackDto.setOrders(orders); 
 		OrderTrack orderTrack = modelMapper.map(orderTrackDto, OrderTrack.class);
-		orderTrackRepo.save(orderTrack);
-		return modelMapper.map(orderTrack, OrderTrackDto.class);
+		OrderTrack savedOrderTrack = orderTrackRepo.save(orderTrack);
+		OrderTrackDto savedOrderTrackDto = modelMapper.map(savedOrderTrack, OrderTrackDto.class);
+		return savedOrderTrackDto;
 	}
 	
+	@Override
 	public OrderTrackDto getOrderTrack(Long id)
 	{
 		return modelMapper.map(orderTrackRepo.findById(id).get(), OrderTrackDto.class);	

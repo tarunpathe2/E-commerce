@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ecommerceweb.constants.ConstantMsg;
+import com.ecommerceweb.dto.OrderTrackDto;
 import com.ecommerceweb.dto.OrdersDto;
 import com.ecommerceweb.entity.Orders;
 import com.ecommerceweb.entity.Products;
@@ -19,6 +21,7 @@ import com.ecommerceweb.repository.OrdersRepository;
 import com.ecommerceweb.repository.ProductRepository;
 import com.ecommerceweb.repository.UserRepository;
 import com.ecommerceweb.service.OrderService;
+import com.ecommerceweb.service.OrderTrackService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -31,6 +34,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	OrderTrackService orderTrackService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -62,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 	{
 		if(!isExist(ordersDto.getUserId()))
 		{
-			throw new BadInputException("User not exist");
+			throw new BadInputException(ConstantMsg.isInvalid);
 		}
 		Products products = productRepository.getById(productId);
 		User user = userRepo.getById(UserId);
@@ -70,8 +76,21 @@ public class OrderServiceImpl implements OrderService {
 		orders.setOrderDate(date);
 		orders.setUser(user);
 		orders.setAmount(products.getPrice()*ordersDto.getQuantity());
-		orderRepo.save(orders);
-		return modelMapper.map(orders, OrdersDto.class);
+		orders.setStatus(ConstantMsg.placed);
+		Orders savedOrder = orderRepo.save(orders);
+		OrdersDto savedOrderDto = modelMapper.map(savedOrder, OrdersDto.class);
+		
+		if(savedOrder!=null)
+		{
+			products.setStock(products.getStock() - orders.getQuantity());
+			productRepository.save(products);
+			OrderTrackDto orderTrackDto = new OrderTrackDto();
+			orderTrackDto.setStatus(ConstantMsg.placed);
+			orderTrackDto.setDate(date);
+			orderTrackService.addOrderTrack(savedOrderDto.getId(), orderTrackDto);
+		}
+		
+		return savedOrderDto;
 	}
 	
 	@Override

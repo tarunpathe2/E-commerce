@@ -68,7 +68,6 @@ public class ProductServiceImpl implements ProductService{
 	
 	public ProductDto updateProduct(ProductDto productDto)
 	{
-//		ifExist(productDto.getCategoryId());
 		Products products = modelMapper.map(productDto, Products.class);
 		productRepository.save(products);
 		return modelMapper.map(products, ProductDto.class);

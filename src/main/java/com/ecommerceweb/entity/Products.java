@@ -15,7 +15,7 @@ public class Products {
 	private String name;
 	private String description;
 	private int price;
-	private int quantity;
+	private int stock;
 	
 	@ManyToOne
 	private Category category;
@@ -23,17 +23,25 @@ public class Products {
 	public Products() {
 		super();
 	}
-	
-	public Products(Long id, String name, String description, int price, int quantity, Category category) {
+
+	public Products(Long id, String name, String description, int price, int stock, Category category) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.quantity = quantity;
+		this.stock = stock;
 		this.category = category;
 	}
+
 	
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
 
 	public Category getCategory() {
 		return category;
@@ -67,17 +75,11 @@ public class Products {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
 
 	@Override
 	public String toString() {
 		return "Products [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
-				+ ", quantity=" + quantity + ", category=" + category + "]";
+				+ ", stock=" + stock + ", category=" + category + "]";
 	}
 	
 }

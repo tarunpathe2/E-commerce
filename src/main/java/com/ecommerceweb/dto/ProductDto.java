@@ -6,7 +6,7 @@ public class ProductDto {
 	private String name;
 	private String description;
 	private int price;
-	private int quantity;
+	private int stock;
 	private Long categoryId;
 
 	public Long getId() {
@@ -41,12 +41,12 @@ public class ProductDto {
 		this.price = price;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public int getStock() {
+		return stock;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 
 	public Long getCategoryId() {
