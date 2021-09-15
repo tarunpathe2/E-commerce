@@ -1,14 +1,17 @@
 package com.ecommerceweb.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ecommerceweb.constants.ConstantMsg;
 import com.ecommerceweb.dto.UserDto;
 import com.ecommerceweb.entity.User;
+import com.ecommerceweb.exception.DataNotFoundException;
 import com.ecommerceweb.repository.UserRepository;
 import com.ecommerceweb.service.UserService;
 
@@ -41,7 +44,13 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserDto getUser(Long id)
 	{
-		return modelMapper.map(userRepo.findById(id).get(), UserDto.class);		
+		Optional<User> userOptional = userRepo.findById(id);
+		if(!userOptional.isPresent())
+		{
+			throw new DataNotFoundException(ConstantMsg.notFound);
+		}
+		UserDto userDto = modelMapper.map(userOptional.get(), UserDto.class);		
+		return userDto;		
 	}
 	
 	@Override

@@ -1,14 +1,16 @@
-	package com.ecommerceweb.service.impl;
+package com.ecommerceweb.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecommerceweb.dto.OrderTrackDto;
+import com.ecommerceweb.dto.OrdersDto;
 import com.ecommerceweb.entity.OrderTrack;
 import com.ecommerceweb.entity.Orders;
 import com.ecommerceweb.repository.OrderTrackRepository;
 import com.ecommerceweb.repository.OrdersRepository;
+import com.ecommerceweb.service.OrderService;
 import com.ecommerceweb.service.OrderTrackService;
 
 @Service
@@ -16,6 +18,9 @@ public class OrderTrackServiceImpl implements OrderTrackService{
 
 	@Autowired
 	OrderTrackRepository orderTrackRepo;
+	
+	@Autowired
+	OrderService orderService;
 	
 	@Autowired
 	OrdersRepository orderRepo;
@@ -31,8 +36,8 @@ public class OrderTrackServiceImpl implements OrderTrackService{
 	@Override
 	public OrderTrackDto addOrderTrack(Long orderId, OrderTrackDto orderTrackDto)
 	{
-		Orders orders = orderRepo.getById(orderId);
-		orderTrackDto.setOrders(orders); 
+		OrdersDto ordersDto = orderService.getOrder(orderId);
+		orderTrackDto.setOrdersDto(ordersDto); 
 		OrderTrack orderTrack = modelMapper.map(orderTrackDto, OrderTrack.class);
 		OrderTrack savedOrderTrack = orderTrackRepo.save(orderTrack);
 		OrderTrackDto savedOrderTrackDto = modelMapper.map(savedOrderTrack, OrderTrackDto.class);

@@ -44,4 +44,10 @@ public class OrderTrack {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	public Orders getOrders() {
+		return orders;
+	}
+	public void setOrders(Orders orders) {
+		this.orders = orders;
+	}
 }

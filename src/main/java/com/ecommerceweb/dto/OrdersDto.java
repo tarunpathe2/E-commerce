@@ -13,10 +13,10 @@ public class OrdersDto {
 	private int amount;
 	private String status;
 	@NotNull
-	private Long userId;
+	private UserDto user;
 	private int quantity;
 	@NotNull
-	private Long productId;
+	private ProductDto product;
 
 	public Long getId() {
 		return id;
@@ -74,20 +74,20 @@ public class OrdersDto {
 		this.status = status;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public UserDto getUser() {
+		return user;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUser(UserDto user) {
+		this.user = user;
 	}
 
-	public Long getProductId() {
-		return productId;
+	public ProductDto getProduct() {
+		return product;
 	}
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
+	public void setProduct(ProductDto product) {
+		this.product = product;
 	}
 
 }

@@ -24,10 +24,10 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
-	@PostMapping
-	public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto)
+	@PostMapping("{userId}/{categoryId}")
+	public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto, @PathVariable Long userId, @PathVariable Long categoryId)
 	{
-		return new ResponseEntity<ProductDto> (productService.addProduct(productDto),HttpStatus.OK);
+		return new ResponseEntity<ProductDto> (productService.addProduct(productDto,userId,categoryId),HttpStatus.OK);
 	}
 	
 	@GetMapping("{id}")

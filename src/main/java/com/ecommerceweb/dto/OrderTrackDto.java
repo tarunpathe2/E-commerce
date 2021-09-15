@@ -2,8 +2,6 @@ package com.ecommerceweb.dto;
 
 import java.sql.Date;
 
-import com.ecommerceweb.entity.Orders;
-
 public class OrderTrackDto {
 
 	private Long id;
@@ -11,7 +9,15 @@ public class OrderTrackDto {
 	private String details;
 	private Date date;
 	
-	private Orders orders;
+	private OrdersDto ordersDto;
+
+	public OrdersDto getOrdersDto() {
+		return ordersDto;
+	}
+
+	public void setOrdersDto(OrdersDto ordersDto) {
+		this.ordersDto = ordersDto;
+	}
 
 	public Long getId() {
 		return id;
@@ -43,14 +49,6 @@ public class OrderTrackDto {
 
 	public void setDate(Date date) {
 		this.date = date;
-	}
-
-	public Orders getOrders() {
-		return orders;
-	}
-
-	public void setOrders(Orders orders) {
-		this.orders = orders;
 	}
 	
 }

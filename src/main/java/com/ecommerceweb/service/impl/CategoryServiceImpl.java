@@ -1,20 +1,24 @@
 package com.ecommerceweb.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ecommerceweb.constants.ConstantMsg;
 import com.ecommerceweb.dto.CategoryDto;
+import com.ecommerceweb.dto.UserDto;
 import com.ecommerceweb.entity.Category;
-import com.ecommerceweb.entity.User;
 import com.ecommerceweb.exception.BadInputException;
+import com.ecommerceweb.exception.DataNotFoundException;
 import com.ecommerceweb.exception.UnprocessableEntity;
 import com.ecommerceweb.repository.CategoryRepository;
 import com.ecommerceweb.repository.UserRepository;
 import com.ecommerceweb.service.CategoryService;
+import com.ecommerceweb.service.UserService;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{
@@ -24,6 +28,9 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Autowired
 	UserRepository userRepo;
+	
+	@Autowired
+	UserService userService;
 	
 	@Autowired
 	CategoryRepository categoryRepo;
@@ -45,34 +52,22 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public CategoryDto getCategory(Long id) {
-
-		return modelMapper.map(categoryRepo.findById(id).get(), CategoryDto.class);
-	}
-
-	@Override
-	public CategoryDto addCategory(CategoryDto categoryDto) {
 		
-		if(!isExist(categoryDto.getUserId()))
+		Optional<Category> categoryOptional = categoryRepo.findById(id);
+		if(!categoryOptional.isPresent())
 		{
-			throw new BadInputException("User not exist");
+			throw new DataNotFoundException(ConstantMsg.isInvalid);
 		}
-		
-		User user = userRepo.findById(categoryDto.getUserId()).get();
-		if (user.getRole() == 0) {
-			throw new UnprocessableEntity("User cannot process");
-		}
-		
-		Category category = modelMapper.map(categoryDto, Category.class);
-		categoryRepo.save(category);
-		return modelMapper.map(category, CategoryDto.class);
+		CategoryDto categoryDto =modelMapper.map(categoryOptional.get(), CategoryDto.class);
+		return categoryDto;
 	}
 
 	@Override
-	public CategoryDto updateCategory(CategoryDto categoryDto) {
+	public CategoryDto addCategory(CategoryDto categoryDto, Long userId) {
 		
-		User user = userRepo.findById(categoryDto.getUserId()).get();
-		if (user.getRole() == 0) {
-			throw new UnprocessableEntity("User cannot process");
+		UserDto userDto = userService.getUser(userId);
+		if (userDto.getRole() != 0) {
+			throw new UnprocessableEntity("client cannot access");
 		}
 		
 		Category category = modelMapper.map(categoryDto, Category.class);
@@ -84,7 +79,7 @@ public class CategoryServiceImpl implements CategoryService{
 	public void deleteCategory(Long id) {
 		if(!categoryRepo.existsById(id))
 		{
-			throw new BadInputException("Category Id doesn't exist");
+			throw new BadInputException(ConstantMsg.notFound);
 		}
 		categoryRepo.deleteById(id);
 	}

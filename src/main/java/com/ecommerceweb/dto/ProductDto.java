@@ -6,8 +6,17 @@ public class ProductDto {
 	private String name;
 	private String description;
 	private int price;
+	private CategoryDto category;
+	private UserDto user;
 	private int stock;
-	private Long categoryId;
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
 
 	public Long getId() {
 		return id;
@@ -41,20 +50,20 @@ public class ProductDto {
 		this.price = price;
 	}
 
-	public int getStock() {
-		return stock;
+	public CategoryDto getCategory() {
+		return category;
 	}
 
-	public void setStock(int stock) {
-		this.stock = stock;
+	public void setCategory(CategoryDto category) {
+		this.category = category;
 	}
 
-	public Long getCategoryId() {
-		return categoryId;
+	public UserDto getUser() {
+		return user;
 	}
 
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
+	public void setUser(UserDto user) {
+		this.user = user;
 	}
 
 }

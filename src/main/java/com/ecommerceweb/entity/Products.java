@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Products {
 
@@ -16,31 +18,25 @@ public class Products {
 	private String description;
 	private int price;
 	private int stock;
-	
+
+	@JsonIgnore
 	@ManyToOne
 	private Category category;
 	
+	@JsonIgnore
+	@ManyToOne
+	private User user;
+
 	public Products() {
 		super();
 	}
 
-	public Products(Long id, String name, String description, int price, int stock, Category category) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.stock = stock;
-		this.category = category;
+	public User getUser() {
+		return user;
 	}
 
-	
-	public int getStock() {
-		return stock;
-	}
-
-	public void setStock(int stock) {
-		this.stock = stock;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Category getCategory() {
@@ -54,24 +50,39 @@ public class Products {
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public int getPrice() {
 		return price;
 	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
 	public void setPrice(int price) {
 		this.price = price;
 	}
@@ -81,5 +92,5 @@ public class Products {
 		return "Products [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
 				+ ", stock=" + stock + ", category=" + category + "]";
 	}
-	
+
 }

@@ -7,14 +7,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ecommerceweb.constants.ConstantMsg;
+import com.ecommerceweb.dto.CategoryDto;
 import com.ecommerceweb.dto.ProductDto;
+import com.ecommerceweb.dto.UserDto;
 import com.ecommerceweb.entity.Products;
-import com.ecommerceweb.exception.BadInputException;
 import com.ecommerceweb.exception.UnprocessableEntity;
-import com.ecommerceweb.repository.CategoryRepository;
 import com.ecommerceweb.repository.ProductRepository;
-import com.ecommerceweb.repository.UserRepository;
+import com.ecommerceweb.service.CategoryService;
 import com.ecommerceweb.service.ProductService;
+import com.ecommerceweb.service.UserService;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -23,27 +25,15 @@ public class ProductServiceImpl implements ProductService{
 	ProductRepository productRepository;
 	
 	@Autowired
-	CategoryRepository categoryRepository;
+	UserService userService;
 	
 	@Autowired
-	UserRepository userRepository;
+	CategoryService categoryService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	public void ifExist(Long categoryId)
-	{
-		if(!categoryRepository.existsById(categoryId))
-		{
-			throw new UnprocessableEntity("Category doesn't exist");
-		}
-		
-		if(!userRepository.existsById(categoryRepository.findById(categoryId).get().getUser().getId()))
-		{
-			throw new BadInputException("User not exist");
-		}
-	}
-	
+	@Override
 	public List<ProductDto> getAllProduct()
 	{
 		List<Products> product = productRepository.findAll();
@@ -53,26 +43,39 @@ public class ProductServiceImpl implements ProductService{
 		return productDto;		
 	}
 	
+	@Override
 	public ProductDto getProduct(Long id)
 	{
 		return modelMapper.map(productRepository.findById(id).get(), ProductDto.class);
 	}
 	
-	public ProductDto addProduct(ProductDto productDto)
+	@Override
+	public ProductDto addProduct(ProductDto productDto,Long userId,Long categoryId)
 	{
-		ifExist(productDto.getCategoryId());
+		UserDto userDto = userService.getUser(userId);
+		if(userDto.getRole()!=0)
+		{
+			throw new UnprocessableEntity(ConstantMsg.isInvalid);
+		}
+		CategoryDto categoryDto = categoryService.getCategory(categoryId);
+		productDto.setUser(userDto);
+		productDto.setCategory(categoryDto);
 		Products products = modelMapper.map(productDto, Products.class);
-		productRepository.save(products);
-		return modelMapper.map(products, ProductDto.class);
+		Products savedProduct =  productRepository.save(products);
+		ProductDto savedProductDto = modelMapper.map(savedProduct, ProductDto.class);
+		return savedProductDto;
 	}
 	
+	@Override
 	public ProductDto updateProduct(ProductDto productDto)
 	{
 		Products products = modelMapper.map(productDto, Products.class);
-		productRepository.save(products);
-		return modelMapper.map(products, ProductDto.class);
+		Products update = productRepository.save(products);
+		ProductDto updatedProduct = modelMapper.map(update, ProductDto.class);
+		return updatedProduct;
 	}
 	
+	@Override
 	public void deleteProduct(Long id)
 	{
 		productRepository.deleteById(id);

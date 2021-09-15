@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,9 +25,9 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@PostMapping
-	public ResponseEntity<CategoryDto> saveCategory(@RequestBody CategoryDto categoryDto)
+	public ResponseEntity<CategoryDto> saveCategory(@RequestBody CategoryDto categoryDto, @PathVariable Long userId)
 	{
-		return new ResponseEntity<CategoryDto> (categoryService.addCategory(categoryDto),HttpStatus.OK);
+		return new ResponseEntity<CategoryDto> (categoryService.addCategory(categoryDto,userId),HttpStatus.OK);
 	}
 
 	@GetMapping
@@ -41,12 +40,6 @@ public class CategoryController {
 	public ResponseEntity<CategoryDto> getCategory(@PathVariable Long id)
 	{
 		return new ResponseEntity<CategoryDto> (categoryService.getCategory(id),HttpStatus.OK);
-	}
-	
-	@PutMapping
-	public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto)
-	{
-		return new ResponseEntity<CategoryDto> (categoryService.updateCategory(categoryDto),HttpStatus.OK);
 	}
 	
 	@DeleteMapping("{id}")
