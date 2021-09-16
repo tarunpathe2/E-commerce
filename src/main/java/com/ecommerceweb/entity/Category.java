@@ -12,17 +12,17 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	private String desciption;
+	private String description;
 
 	public Category() {
 		super();
 	}
 
-	public Category(Long id, String name, String desciption) {
+	public Category(Long id, String name, String description) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.desciption = desciption;
+		this.description = description;
 	}
 
 	public Long getId() {
@@ -41,17 +41,17 @@ public class Category {
 		this.name = name;
 	}
 
-	public String getDesciption() {
-		return desciption;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesciption(String desciption) {
-		this.desciption = desciption;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", desciption=" + desciption + "]";
+		return "Category [id=" + id + ", name=" + name + ", description=" + description + "]";
 	}
 
 }

@@ -66,7 +66,7 @@ public class CategoryServiceImpl implements CategoryService{
 	public CategoryDto addCategory(CategoryDto categoryDto, Long userId) {
 		
 		UserDto userDto = userService.getUser(userId);
-		if (userDto.getRole() != 0) {
+		if (userDto.getRole() != 1) {
 			throw new UnprocessableEntity("client cannot access");
 		}
 		

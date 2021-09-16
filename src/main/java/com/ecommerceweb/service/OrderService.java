@@ -13,9 +13,13 @@ public interface OrderService {
 	
 	public OrdersDto addOrders(OrdersDto ordersDto, Long productId,Long UserId);
 	
+	public OrdersDto updateOrderStatus(Long orderId, Long userId,String status);
+	
 	public List<OrdersDto> getOrdersBetween(Date startDate, Date endDate );
 	
-	public OrdersDto updateOrders(OrdersDto ordersDto);
+	public int totalProductSold(Date start, Date end);
+	
+	public OrdersDto updateOrders(Long productId, Long userId, OrdersDto ordersDto);
 	
 	public void deleteOrders(Long id);
 }

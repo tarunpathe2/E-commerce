@@ -9,6 +9,6 @@ import com.ecommerceweb.entity.Orders;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long>{
 	
-	public List<Orders> findByAmountBetween(int start,int end); 
+//	public List<Orders> findByAmountBetween(int start,int end); 
 	public List<Orders> findByOrderDateBetween(Date start,Date end); 
 }

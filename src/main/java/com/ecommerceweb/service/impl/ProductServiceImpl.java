@@ -53,7 +53,7 @@ public class ProductServiceImpl implements ProductService{
 	public ProductDto addProduct(ProductDto productDto,Long userId,Long categoryId)
 	{
 		UserDto userDto = userService.getUser(userId);
-		if(userDto.getRole()!=0)
+		if(userDto.getRole()!=1)
 		{
 			throw new UnprocessableEntity(ConstantMsg.isInvalid);
 		}
