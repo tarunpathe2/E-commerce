@@ -12,6 +12,4 @@ public interface CategoryService {
 	
 	public CategoryDto addCategory(CategoryDto categoryDto, Long userId);
 	
-	public void deleteCategory(Long id);
-	
 }

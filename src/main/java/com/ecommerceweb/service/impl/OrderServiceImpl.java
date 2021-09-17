@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,24 +56,32 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+	
 	private Date date = new Date(Calendar.getInstance().getTime().getTime());
 
 	@Override
 	public List<OrdersDto> getAllOrders() {
+		logger.info("getAllOrders  method in OrderServiceImpl started");
 		List<Orders> orders = orderRepo.findAll();
 		List<OrdersDto> ordersDto = orders.stream().map(od -> modelMapper.map(od, OrdersDto.class))
 				.collect(Collectors.toList());
+		logger.info("getAllOrders  method in OrderServiceImpl ended");
 		return ordersDto;
 	}
 
 	@Override
 	public OrdersDto getOrder(Long id) {
-		return modelMapper.map(orderRepo.findById(id).get(), OrdersDto.class);
+		logger.info("getOrders  method in OrderServiceImpl started");
+		OrdersDto ordersDto = modelMapper.map(orderRepo.findById(id).get(), OrdersDto.class);
+		logger.info("getOrders  method in OrderServiceImpl started");
+		return ordersDto;
 	}
 
 	@Override
 	public OrdersDto addOrders(OrdersDto ordersDto, Long productId, Long userId) {
 
+		logger.info("addOrders  method in OrderServiceImpl started");
 		ProductDto productDto = productService.getProduct(productId);
 		UserDto userDto = userService.getUser(userId);
 		ordersDto.setOrderDate(date);
@@ -82,29 +92,29 @@ public class OrderServiceImpl implements OrderService {
 		Orders orders = modelMapper.map(ordersDto, Orders.class);
 		Orders savedOrder = orderRepo.save(orders);
 		OrdersDto savedOrderDto = modelMapper.map(savedOrder, OrdersDto.class);
-
 		if (savedOrder != null) {
-			productDto.setStock(productDto.getStock() - ordersDto.getQuantity());
-			productService.updateProduct(productDto);
 			OrderTrackDto orderTrackDto = new OrderTrackDto();
 			orderTrackDto.setStatus(ConstantMsg.placed);
 			orderTrackDto.setDate(date);
 			orderTrackService.addOrderTrack(savedOrderDto.getId(), orderTrackDto);
 		}
-
+		logger.info("addOrders  method in OrderServiceImpl ended");
 		return savedOrderDto;
 	}
 
 	@Override
 	public List<OrdersDto> getOrdersBetween(Date start, Date end) {
+		logger.info("getOrdersBetween  method in OrderServiceImpl started");
 		List<Orders> orders = orderRepo.findByOrderDateBetween(start, end);
 		List<OrdersDto> ordersDto = orders.stream().map(od -> modelMapper.map(od, OrdersDto.class))
 				.collect(Collectors.toList());
+		logger.info("getOrdersBetween  method in OrderServiceImpl ended");
 		return ordersDto;
 	}
 
 	@Override
 	public int totalProductSold(Date start, Date end) {
+		logger.info("totalProductSold  method in OrderServiceImpl started");
 		int amount = 0;
 		List<OrderTrack> orderTrack = (List<OrderTrack>) orderTrackRepository.findByDateBetween(start, end);
 		int size = orderTrack.size();
@@ -113,11 +123,13 @@ public class OrderServiceImpl implements OrderService {
 				amount = (int) (amount + (orderTrack.get(i).getOrders().getAmount()));
 			}
 		}
+		logger.info("totalProductSold  method in OrderServiceImpl started");
 		return amount;
 	}
 
 	@Override
 	public OrdersDto updateOrders(Long productId, Long userId, OrdersDto ordersDto) {
+		logger.info("updateOrders  method in OrderServiceImpl started");
 		User user = userRepo.findById(ordersDto.getId()).get();
 		if (user.getRole() == 1) {
 			throw new UnprocessableEntity(ConstantMsg.isInvalid);
@@ -136,11 +148,13 @@ public class OrderServiceImpl implements OrderService {
 		Orders orders = modelMapper.map(ordersDto, Orders.class);
 		Orders savedOrder = orderRepo.save(orders);
 		OrdersDto savedOrderDto = modelMapper.map(savedOrder, OrdersDto.class);
+		logger.info("updateOrders  method in OrderServiceImpl ended");
 		return savedOrderDto;
 	}
 
 	@Override
 	public OrdersDto updateOrderStatus(Long orderId, Long userId, String status) {
+		logger.info("updateOrderStatus  method in OrderServiceImpl started");
 		UserDto userDto = userService.getUser(userId);
 		if (userDto.getRole() != 1) {
 			throw new UnprocessableEntity(ConstantMsg.isInvalid);
@@ -164,13 +178,8 @@ public class OrderServiceImpl implements OrderService {
 			orderTrackDto.setDate(date);
 			orderTrackService.addOrderTrack(savedOrdersDto.getId(), orderTrackDto);
 		}
-
+		logger.info("updateOrderStatus  method in OrderServiceImpl ended");
 		return savedOrdersDto;
-	}
-
-	@Override
-	public void deleteOrders(Long id) {
-		orderRepo.deleteById(id);
 	}
 
 }

@@ -21,5 +21,4 @@ public interface OrderService {
 	
 	public OrdersDto updateOrders(Long productId, Long userId, OrdersDto ordersDto);
 	
-	public void deleteOrders(Long id);
 }

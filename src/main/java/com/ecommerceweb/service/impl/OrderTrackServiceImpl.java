@@ -1,6 +1,8 @@
 package com.ecommerceweb.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,14 +10,14 @@ import com.ecommerceweb.dto.OrderTrackDto;
 import com.ecommerceweb.dto.OrdersDto;
 import com.ecommerceweb.entity.OrderTrack;
 import com.ecommerceweb.repository.OrderTrackRepository;
-import com.ecommerceweb.repository.OrdersRepository;
 import com.ecommerceweb.service.OrderService;
 import com.ecommerceweb.service.OrderTrackService;
-import com.ecommerceweb.service.UserService;
 
 @Service
 public class OrderTrackServiceImpl implements OrderTrackService {
 
+	Logger logger = LoggerFactory.getLogger(OrderTrackServiceImpl.class);
+	
 	@Autowired
 	OrderTrackRepository orderTrackRepo;
 
@@ -23,31 +25,27 @@ public class OrderTrackServiceImpl implements OrderTrackService {
 	OrderService orderService;
 
 	@Autowired
-	OrdersRepository orderRepo;
-
-	@Autowired
-	UserService userService;
-
-	@Autowired
 	private ModelMapper modelMapper;
-
-	public boolean isExist(Long id) {
-		return orderTrackRepo.existsById(id);
-	}
 
 	@Override
 	public OrderTrackDto addOrderTrack(Long orderId, OrderTrackDto orderTrackDto) {
+		logger.info("addOrderTrack method in OrderTrackServiceImpl started");
 		OrdersDto ordersDto = orderService.getOrder(orderId);
 		orderTrackDto.setOrdersDto(ordersDto);
 		OrderTrack orderTrack = modelMapper.map(orderTrackDto, OrderTrack.class);
 		OrderTrack savedOrderTrack = orderTrackRepo.save(orderTrack);
 		OrderTrackDto savedOrderTrackDto = modelMapper.map(savedOrderTrack, OrderTrackDto.class);
+		logger.info("addOrderTrack method in OrderTrackServiceImpl ended");
 		return savedOrderTrackDto;
 	}
 
 	@Override
 	public OrderTrackDto getOrderTrack(Long id) {
-		return modelMapper.map(orderTrackRepo.findById(id).get(), OrderTrackDto.class);
+		logger.info("getOrderTrack method in OrderTrackServiceImpl started");
+		OrderTrackDto orderTrackDto = modelMapper.map(orderTrackRepo.findById(id).get(), OrderTrackDto.class);
+		logger.info("getOrderTrack method in OrderTrackServiceImpl ended");
+		return orderTrackDto;
+
 	}
 
 }

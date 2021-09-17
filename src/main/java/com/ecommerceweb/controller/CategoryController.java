@@ -2,10 +2,11 @@ package com.ecommerceweb.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,32 +22,30 @@ import com.ecommerceweb.service.CategoryService;
 @RequestMapping("/e-commerce/category/")
 public class CategoryController {
 	
+	Logger logger = LoggerFactory.getLogger(CategoryController.class);
+	
 	@Autowired
 	private CategoryService categoryService;
 	
 	@PostMapping("{userId}")
 	public ResponseEntity<CategoryDto> saveCategory(@RequestBody CategoryDto categoryDto, @PathVariable Long userId)
 	{
+		logger.info("saveCategory method started");
 		return new ResponseEntity<CategoryDto> (categoryService.addCategory(categoryDto,userId),HttpStatus.OK);
 	}
 
 	@GetMapping
 	public ResponseEntity<List<CategoryDto>> getAllCategory()
 	{
+		logger.info("getAllCategory method started");
 		return new ResponseEntity<List<CategoryDto>> (categoryService.getAllCategory(),HttpStatus.OK);
 	}
 	
 	@GetMapping("{id}")
 	public ResponseEntity<CategoryDto> getCategory(@PathVariable Long id)
 	{
+		logger.info("getCategory method started");
 		return new ResponseEntity<CategoryDto> (categoryService.getCategory(id),HttpStatus.OK);
-	}
-	
-	@DeleteMapping("{id}")
-	public ResponseEntity<CategoryDto> deleteCategory(@PathVariable Long id)
-	{
-		categoryService.deleteCategory(id);
-		return new ResponseEntity<CategoryDto> (HttpStatus.OK);
 	}
 	
 }
