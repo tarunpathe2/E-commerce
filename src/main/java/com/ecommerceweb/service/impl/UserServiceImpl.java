@@ -49,6 +49,17 @@ public class UserServiceImpl implements UserService{
 		return userDto;
 	}
 	
+//	@Override
+//	public List<UserDto> getAllOrders(Long )
+//	{
+//		logger.info("getAllUser method in UserServiceImpl started");
+//		List<User> users = userRepo.findAll();
+//		List<UserDto> userDto = users.stream().map(user -> modelMapper.map(user, UserDto.class))
+//				.collect(Collectors.toList());
+//		logger.info("getAllUser method in UserServiceImpl ended");
+//		return userDto;
+//	}
+	
 	@Override
 	public UserDto getUser(Long id)
 	{

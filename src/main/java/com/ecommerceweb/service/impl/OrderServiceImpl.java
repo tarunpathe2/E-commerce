@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
 		logger.info("getOrders  method in OrderServiceImpl started");
 		return ordersDto;
 	}
-
+	
 	@Override
 	public OrdersDto addOrders(OrdersDto ordersDto, Long productId, Long userId) {
 
@@ -126,6 +126,17 @@ public class OrderServiceImpl implements OrderService {
 		logger.info("totalProductSold  method in OrderServiceImpl started");
 		return amount;
 	}
+	
+	@Override
+	public List<OrdersDto> getUserOrders(Long id) {
+		logger.info("getUserOrders  method in OrderServiceImpl started");
+		List<Orders> order = (List<Orders>) orderRepo.findAllByUserId(id);
+		List<OrdersDto> orderDto = order.stream().map(user -> modelMapper.map(user, OrdersDto.class))
+				.collect(Collectors.toList());
+		logger.info("getUserOrders  method in OrderServiceImpl ended");
+		return orderDto;
+	}
+
 
 	@Override
 	public OrdersDto updateOrders(Long productId, Long userId, OrdersDto ordersDto) {
@@ -163,10 +174,10 @@ public class OrderServiceImpl implements OrderService {
 		if (status.equalsIgnoreCase(ConstantMsg.confirm)) {
 			orderDto.setStatus(ConstantMsg.confirm);
 		}
-		if (status.equals(ConstantMsg.delivered)) {
+		if (status.equalsIgnoreCase(ConstantMsg.delivered)) {
 			orderDto.setStatus(ConstantMsg.delivered);
 		}
-		if (status.equals(ConstantMsg.cancel)) {
+		if (status.equalsIgnoreCase(ConstantMsg.cancel)) {
 			orderDto.setStatus(ConstantMsg.cancel);
 		}
 		Orders order = modelMapper.map(orderDto, Orders.class);

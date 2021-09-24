@@ -1,5 +1,7 @@
 package com.ecommerceweb.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -15,8 +17,8 @@ public class UserDto {
 	@NotNull
 	private UserProfile userProfile;
 	@NotNull
-	@Min(value = 0,message = "must be greater than or equal to 0")
-	@Max(value = 1,message = "must be less than or equal to 1")
+	@Min(value = 0, message = "must be greater than or equal to 0")
+	@Max(value = 1, message = "must be less than or equal to 1")
 	private int role;
 
 	public int getRole() {

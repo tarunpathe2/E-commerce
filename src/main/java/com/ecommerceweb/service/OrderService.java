@@ -17,8 +17,12 @@ public interface OrderService {
 	
 	public List<OrdersDto> getOrdersBetween(Date startDate, Date endDate );
 	
+	public List<OrdersDto> getUserOrders(Long id);
+	
 	public int totalProductSold(Date start, Date end);
 	
 	public OrdersDto updateOrders(Long productId, Long userId, OrdersDto ordersDto);
+	
+//	public List<OrdersDto> getOrderForUser(Long userId);
 	
 }

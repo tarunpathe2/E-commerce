@@ -18,7 +18,7 @@ public class User {
 	private String email;
 	private int role;
 
-	@OneToOne(cascade =  CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JsonIgnore
 	private UserProfile userprofile;
 

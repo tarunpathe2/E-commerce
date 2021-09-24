@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Orders {
 
@@ -21,6 +23,7 @@ public class Orders {
 	private int quantity;
 	private String status;
 	
+	@JsonIgnore
 	@ManyToOne
 	private User user;
 	
@@ -81,4 +84,6 @@ public class Orders {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	
 }

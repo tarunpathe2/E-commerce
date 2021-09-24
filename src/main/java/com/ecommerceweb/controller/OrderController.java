@@ -57,9 +57,9 @@ public class OrderController {
 	}
 
 	@GetMapping("totalAmountBetween/{start}/{end}")
-	public ResponseEntity getAllAmountsByDates(@PathVariable Date start, @PathVariable Date end) {
+	public ResponseEntity<Integer> getAllAmountsByDates(@PathVariable Date start, @PathVariable Date end) {
 		logger.info("getAllAmountsByDates method started");
-		return new ResponseEntity(orderService.totalProductSold(start, end), HttpStatus.OK);
+		return new ResponseEntity<Integer>(orderService.totalProductSold(start, end), HttpStatus.OK);
 	}
 
 	//User API 
@@ -83,11 +83,19 @@ public class OrderController {
 		return new ResponseEntity<OrdersDto>(orderService.getOrder(id), HttpStatus.OK);
 	}
 	
+	@GetMapping("users/{userId}")
+	public ResponseEntity<List<OrdersDto>> getAllOrdersByUserId(@PathVariable Long userId) {
+		logger.info("getAllOrdersByUserId method started");
+		return new ResponseEntity<List<OrdersDto>>(orderService.getUserOrders(userId), HttpStatus.OK);
+	}
+	
 	@GetMapping("orderTrack/{id}")
 	public ResponseEntity<OrderTrackDto> getorderTrack(@PathVariable Long id)
 	{
 		logger.info("getorderTrack method started");
 		return new ResponseEntity<OrderTrackDto> (orderTrackService.getOrderTrack(id),HttpStatus.OK);	
 	}
+	
+	
 
 }
