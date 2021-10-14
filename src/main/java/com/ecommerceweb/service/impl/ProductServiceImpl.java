@@ -14,8 +14,10 @@ import com.ecommerceweb.dto.CategoryDto;
 import com.ecommerceweb.dto.ProductDto;
 import com.ecommerceweb.dto.UserDto;
 import com.ecommerceweb.entity.Products;
+import com.ecommerceweb.enums.Role;
 import com.ecommerceweb.exception.UnprocessableEntity;
 import com.ecommerceweb.repository.ProductRepository;
+import com.ecommerceweb.repository.UserRepository;
 import com.ecommerceweb.service.CategoryService;
 import com.ecommerceweb.service.ProductService;
 import com.ecommerceweb.service.UserService;
@@ -28,6 +30,9 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	@Autowired
 	CategoryService categoryService;
@@ -62,7 +67,7 @@ public class ProductServiceImpl implements ProductService{
 	{
 		logger.info("addProduct  method in ProductServiceImpl started");
 		UserDto userDto = userService.getUser(userId);
-		if(userDto.getRole()!=1)
+		if(!userRepository.findUserById(userId).getRole().equalsIgnoreCase(Role.ADMIN.toString()))
 		{
 			throw new UnprocessableEntity(ConstantMsg.isInvalid);
 		}

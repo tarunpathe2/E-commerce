@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecommerceweb.constants.ConstantMsg;
-import com.ecommerceweb.controller.UserController;
 import com.ecommerceweb.dto.UserDto;
 import com.ecommerceweb.entity.User;
 import com.ecommerceweb.exception.DataNotFoundException;
@@ -48,17 +47,6 @@ public class UserServiceImpl implements UserService{
 		logger.info("getAllUser method in UserServiceImpl ended");
 		return userDto;
 	}
-	
-//	@Override
-//	public List<UserDto> getAllOrders(Long )
-//	{
-//		logger.info("getAllUser method in UserServiceImpl started");
-//		List<User> users = userRepo.findAll();
-//		List<UserDto> userDto = users.stream().map(user -> modelMapper.map(user, UserDto.class))
-//				.collect(Collectors.toList());
-//		logger.info("getAllUser method in UserServiceImpl ended");
-//		return userDto;
-//	}
 	
 	@Override
 	public UserDto getUser(Long id)

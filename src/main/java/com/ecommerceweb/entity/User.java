@@ -1,22 +1,32 @@
 package com.ecommerceweb.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name = "users")
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Column(nullable = false)
+	@NotEmpty
+	@Email(message = "Invalid Message")
 	private String email;
-	private int role;
+
+	private String role;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JsonIgnore
@@ -26,7 +36,8 @@ public class User {
 		super();
 	}
 
-	public User(Long id, String email, int role, UserProfile userprofile) {
+	public User(Long id, @NotEmpty @Email(message = "Invalid Message") String email, String role,
+			UserProfile userprofile) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -34,11 +45,11 @@ public class User {
 		this.userprofile = userprofile;
 	}
 
-	public int getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(int role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 

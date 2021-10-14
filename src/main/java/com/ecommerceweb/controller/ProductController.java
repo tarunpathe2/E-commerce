@@ -20,47 +20,45 @@ import com.ecommerceweb.dto.ProductDto;
 import com.ecommerceweb.service.ProductService;
 
 @RestController
-@RequestMapping("/e-commerce/products/")
+@RequestMapping("/e-commerce/admin")
 public class ProductController {
 
 	@Autowired
 	private ProductService productService;
-	
+
 	Logger logger = LoggerFactory.getLogger(ProductController.class);
-	
-	@PostMapping("{userId}/{categoryId}")
-	public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto, @PathVariable Long userId, @PathVariable Long categoryId)
-	{
+
+	@PostMapping("/addProducts/{userId}/{categoryId}")
+	public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto, @PathVariable Long userId,
+			@PathVariable Long categoryId) {
 		logger.info("saveProduct method started");
-		return new ResponseEntity<ProductDto> (productService.addProduct(productDto,userId,categoryId),HttpStatus.OK);
+		return new ResponseEntity<ProductDto>(productService.addProduct(productDto, userId, categoryId), HttpStatus.OK);
 	}
-	
-	@GetMapping("{id}")
-	public ResponseEntity<ProductDto> getProduct(@PathVariable Long id)
-	{
+
+	@GetMapping("/getProduct/{id}")
+	public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
 		logger.info("getProduct method started");
-		return new ResponseEntity<ProductDto> (productService.getProduct(id),HttpStatus.OK);
+		return new ResponseEntity<ProductDto>(productService.getProduct(id), HttpStatus.OK);
 	}
-	
-	@GetMapping
-	public ResponseEntity<List<ProductDto>> getAllProducts()
-	{
+
+	@GetMapping("/getAllProducts")
+	public ResponseEntity<List<ProductDto>> getAllProducts() {
 		logger.info("getAllProducts method started");
-		return new ResponseEntity<List<ProductDto>> (productService.getAllProduct(),HttpStatus.OK);
+		return new ResponseEntity<List<ProductDto>>(productService.getAllProduct(), HttpStatus.OK);
 	}
-	
-	@PutMapping("{userId}/{categoryId}")
-	public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto,@PathVariable Long userId, @PathVariable Long categoryId)
-	{
+
+	@PutMapping("/updateProduct/{userId}/{categoryId}")
+	public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto, @PathVariable Long userId,
+			@PathVariable Long categoryId) {
 		logger.info("updateProduct method started");
-		return new ResponseEntity<ProductDto> (productService.updateProduct(productDto, userId, categoryId),HttpStatus.OK);
+		return new ResponseEntity<ProductDto>(productService.updateProduct(productDto, userId, categoryId),
+				HttpStatus.OK);
 	}
-	
-	@DeleteMapping("{id}")
-	public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long id)
-	{
+
+	@DeleteMapping("/deleteProduct{id}")
+	public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long id) {
 		logger.info("deleteProduct method started");
 		productService.deleteProduct(id);
-		return new ResponseEntity<ProductDto> (HttpStatus.OK);
+		return new ResponseEntity<ProductDto>(HttpStatus.OK);
 	}
 }

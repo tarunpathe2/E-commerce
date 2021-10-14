@@ -59,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
 	Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 	
 	private Date date = new Date(Calendar.getInstance().getTime().getTime());
-
+	
 	@Override
 	public List<OrdersDto> getAllOrders() {
 		logger.info("getAllOrders  method in OrderServiceImpl started");
@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
 	public OrdersDto getOrder(Long id) {
 		logger.info("getOrders  method in OrderServiceImpl started");
 		OrdersDto ordersDto = modelMapper.map(orderRepo.findById(id).get(), OrdersDto.class);
-		logger.info("getOrders  method in OrderServiceImpl started");
+		logger.info("getOrders method in OrderServiceImpl ended");
 		return ordersDto;
 	}
 	
@@ -141,10 +141,6 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public OrdersDto updateOrders(Long productId, Long userId, OrdersDto ordersDto) {
 		logger.info("updateOrders  method in OrderServiceImpl started");
-		User user = userRepo.findById(ordersDto.getId()).get();
-		if (user.getRole() == 1) {
-			throw new UnprocessableEntity(ConstantMsg.isInvalid);
-		}
 		if (ordersDto.getStatus().equals(ConstantMsg.confirm) || ordersDto.getStatus().equals(ConstantMsg.delivered)
 				|| ordersDto.getStatus().equals(ConstantMsg.cancel)) {
 			throw new UnprocessableEntity(ConstantMsg.isInvalid);
@@ -166,10 +162,6 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public OrdersDto updateOrderStatus(Long orderId, Long userId, String status) {
 		logger.info("updateOrderStatus  method in OrderServiceImpl started");
-		UserDto userDto = userService.getUser(userId);
-		if (userDto.getRole() != 1) {
-			throw new UnprocessableEntity(ConstantMsg.isInvalid);
-		}
 		OrdersDto orderDto = getOrder(orderId);
 		if (status.equalsIgnoreCase(ConstantMsg.confirm)) {
 			orderDto.setStatus(ConstantMsg.confirm);

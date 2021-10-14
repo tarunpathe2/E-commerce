@@ -22,21 +22,9 @@ public class Products {
 	@JsonIgnore
 	@ManyToOne
 	private Category category;
-	
-	@JsonIgnore
-	@ManyToOne
-	private User user;
 
 	public Products() {
 		super();
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public Category getCategory() {

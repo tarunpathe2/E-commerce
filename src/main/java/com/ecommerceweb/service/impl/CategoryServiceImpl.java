@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerceweb.constants.ConstantMsg;
 import com.ecommerceweb.dto.CategoryDto;
-import com.ecommerceweb.dto.UserDto;
 import com.ecommerceweb.entity.Category;
+import com.ecommerceweb.enums.Role;
 import com.ecommerceweb.exception.DataNotFoundException;
 import com.ecommerceweb.exception.UnprocessableEntity;
 import com.ecommerceweb.repository.CategoryRepository;
@@ -65,8 +65,8 @@ public class CategoryServiceImpl implements CategoryService {
 	public CategoryDto addCategory(CategoryDto categoryDto, Long userId) {
 
 		logger.info("addCategory method in CategoryServiceImpl started");
-		UserDto userDto = userService.getUser(userId);
-		if (userDto.getRole() != 1) {
+		
+		if (!userRepo.findUserById(userId).getRole().equalsIgnoreCase(Role.ADMIN.toString()) ) {
 			throw new UnprocessableEntity("client cannot access");
 		}
 
