@@ -18,16 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerceweb.dto.UserDto;
 import com.ecommerceweb.service.UserService;
 
-
 @RestController
-@RequestMapping("/e-commerce/users")
+@RequestMapping("/user")
 public class UserController {
 
 	Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+
 	@Autowired
 	private UserService userService;
-
+	
 	@GetMapping("{id}")
 	public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
 		logger.info("getUser method started");

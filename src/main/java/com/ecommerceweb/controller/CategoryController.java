@@ -19,7 +19,7 @@ import com.ecommerceweb.service.CategoryService;
 
 
 @RestController
-@RequestMapping("/e-commerce/category/")
+@RequestMapping("/admin")
 public class CategoryController {
 	
 	Logger logger = LoggerFactory.getLogger(CategoryController.class);
@@ -27,21 +27,21 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 	
-	@PostMapping("{userId}")
+	@PostMapping("/addCategory/{userId}")
 	public ResponseEntity<CategoryDto> saveCategory(@RequestBody CategoryDto categoryDto, @PathVariable Long userId)
 	{
 		logger.info("saveCategory method started");
 		return new ResponseEntity<CategoryDto> (categoryService.addCategory(categoryDto,userId),HttpStatus.OK);
 	}
 
-	@GetMapping
+	@GetMapping("/getAllCategory")
 	public ResponseEntity<List<CategoryDto>> getAllCategory()
 	{
 		logger.info("getAllCategory method started");
 		return new ResponseEntity<List<CategoryDto>> (categoryService.getAllCategory(),HttpStatus.OK);
 	}
 	
-	@GetMapping("{id}")
+	@GetMapping("/getCategory/{id}")
 	public ResponseEntity<CategoryDto> getCategory(@PathVariable Long id)
 	{
 		logger.info("getCategory method started");

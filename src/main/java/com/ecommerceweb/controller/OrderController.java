@@ -22,7 +22,7 @@ import com.ecommerceweb.service.OrderService;
 import com.ecommerceweb.service.OrderTrackService;
 
 @RestController
-@RequestMapping("/e-commerce/orders/")
+@RequestMapping("/e-commerce")
 public class OrderController {
 
 	@Autowired
@@ -35,20 +35,20 @@ public class OrderController {
 
 	//Admin API
 
-	@GetMapping
+	@GetMapping("/admin/getAll")
 	public ResponseEntity<List<OrdersDto>> getAllOrder() {
 		logger.info("getAllOrder method started");
 		return new ResponseEntity<List<OrdersDto>>(orderService.getAllOrders(), HttpStatus.OK);
 	}
 
-	@GetMapping("date/{start}/{end}")
+	@GetMapping("/admin/date/{start}/{end}")
 	public ResponseEntity<List<OrdersDto>> getAllOrderByDates(@PathVariable Date start, @PathVariable Date end) {
 		logger.info("getAllOrderByDates method started");
 		return new ResponseEntity<List<OrdersDto>>(orderService.getOrdersBetween(start, end), HttpStatus.OK);
 	}
 
 
-	@PutMapping("{orderId}/{userId}/{status}")
+	@PutMapping("/admin/updateStatus/{orderId}/{userId}/{status}")
 	public ResponseEntity<OrdersDto> updateOrderStatus( @PathVariable Long orderId, @PathVariable Long userId,
 			@PathVariable String status) {
 		logger.info("updateOrderStatus method started");
@@ -56,7 +56,7 @@ public class OrderController {
 
 	}
 
-	@GetMapping("totalAmountBetween/{start}/{end}")
+	@GetMapping("/admin/totalAmountBetween/{start}/{end}")
 	public ResponseEntity<Integer> getAllAmountsByDates(@PathVariable Date start, @PathVariable Date end) {
 		logger.info("getAllAmountsByDates method started");
 		return new ResponseEntity<Integer>(orderService.totalProductSold(start, end), HttpStatus.OK);
@@ -64,32 +64,32 @@ public class OrderController {
 
 	//User API 
 	
-	@PostMapping("{userId}/{productId}")
+	@PostMapping("/user/createOrder/{userId}/{productId}")
 	public ResponseEntity<OrdersDto> createOrder(@RequestBody OrdersDto orderDto, @PathVariable Long userId,
 			@PathVariable Long productId) {
 		logger.info("crreateOrder method started");
 		return new ResponseEntity<OrdersDto>(orderService.addOrders(orderDto, productId, userId), HttpStatus.OK);
 	}
 
-	@PutMapping("updateOrder/{productId}/{userId}")
+	@PutMapping("user/updateOrder/{productId}/{userId}")
 	public ResponseEntity<OrdersDto> updateOrder(@RequestBody OrdersDto orderDto, @PathVariable Long userId, @PathVariable Long productId) {
 		logger.info("UpdateOrder method started");
 		return new ResponseEntity<OrdersDto>(orderService.updateOrders(productId,userId,orderDto), HttpStatus.OK);
 	}
 
-	@GetMapping("{id}")
+	@GetMapping("user/order/{id}")
 	public ResponseEntity<OrdersDto> getOrder(@PathVariable Long id) {
 		logger.info("getOrder method started");
 		return new ResponseEntity<OrdersDto>(orderService.getOrder(id), HttpStatus.OK);
 	}
 	
-	@GetMapping("users/{userId}")
+	@GetMapping("users/getAllOrders/{userId}")
 	public ResponseEntity<List<OrdersDto>> getAllOrdersByUserId(@PathVariable Long userId) {
 		logger.info("getAllOrdersByUserId method started");
 		return new ResponseEntity<List<OrdersDto>>(orderService.getUserOrders(userId), HttpStatus.OK);
 	}
 	
-	@GetMapping("orderTrack/{id}")
+	@GetMapping("user/orderTrack/{id}")
 	public ResponseEntity<OrderTrackDto> getorderTrack(@PathVariable Long id)
 	{
 		logger.info("getorderTrack method started");
