@@ -15,6 +15,8 @@ public class UserDto {
 	@NotNull
 	private UserProfile userProfile;
 
+	private String password;
+
 	@NotNull
 	private String role;
 
@@ -24,6 +26,14 @@ public class UserDto {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Long getId() {

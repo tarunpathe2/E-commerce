@@ -20,7 +20,7 @@ import com.ecommerceweb.dto.ProductDto;
 import com.ecommerceweb.service.ProductService;
 
 @RestController
-@RequestMapping("/e-commerce/admin")
+@RequestMapping("/admin")
 public class ProductController {
 
 	@Autowired

@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ecommerceweb.constants.ConstantMsg;
@@ -24,6 +25,9 @@ public class UserServiceImpl implements UserService{
 	private UserRepository userRepo;
 	
 	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
 	private ModelMapper modelMapper;
 
 	Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -33,6 +37,7 @@ public class UserServiceImpl implements UserService{
 	{
 		logger.info("addUser method in UserServiceImpl started");
 		User user = modelMapper.map(userDto, User.class);
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepo.save(user);
 		return modelMapper.map(user, UserDto.class);
 	}

@@ -26,6 +26,8 @@ public class User {
 	@Email(message = "Invalid Message")
 	private String email;
 
+	private String password;
+
 	private String role;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -37,16 +39,25 @@ public class User {
 	}
 
 	public User(Long id, @NotEmpty @Email(message = "Invalid Message") String email, String role,
-			UserProfile userprofile) {
+			UserProfile userprofile, String password) {
 		super();
 		this.id = id;
 		this.email = email;
+		this.password = password;
 		this.role = role;
 		this.userprofile = userprofile;
 	}
 
 	public String getRole() {
 		return role;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setRole(String role) {
